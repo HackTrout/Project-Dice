@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Objects/CarryObject/Key.gd" type="Script" id=1]
+[ext_resource path="res://Textures/Objects/CarryObjects/carry0001.png" type="Texture" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 5.0
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 12.0
+
+[node name="Key" type="KinematicBody2D"]
+collision_layer = 2
+collision_mask = 9
+script = ExtResource( 1 )
+texture = ExtResource( 2 )
+targetGroup = "keyblock"
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+
+[node name="Collider" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="Shape" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[connection signal="body_entered" from="Hitbox" to="." method="_on_Hitbox_body_entered"]

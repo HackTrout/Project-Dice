@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://World/FX.gd" type="Script" id=1]
+[ext_resource path="res://Helpers/PostProcess/PostProcess.tscn" type="PackedScene" id=4]
+
+[node name="LevelManager" type="Node"]
+
+[node name="FX" type="Node2D" parent="." groups=["FX"]]
+script = ExtResource( 1 )
+
+[node name="PostProcess" parent="." instance=ExtResource( 4 )]

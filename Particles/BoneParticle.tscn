@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Particles/Particle.gd" type="Script" id=1]
+[ext_resource path="res://Textures/FX/effect0000.png" type="Texture" id=2]
+
+[sub_resource type="ParticlesMaterial" id=1]
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+spread = 15.0
+gravity = Vector3( 0, 98, 0 )
+initial_velocity = 126.29
+initial_velocity_random = 0.1
+angular_velocity = 129.44
+angular_velocity_random = 0.75
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+
+[node name="BoneParticle" type="Particles2D"]
+scale = Vector2( 2, 2 )
+emitting = false
+amount = 2
+lifetime = 5.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource( 1 )
+texture = ExtResource( 2 )
+script = ExtResource( 1 )

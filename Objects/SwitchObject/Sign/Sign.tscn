@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Objects/SwitchObject/Sign/Sign.gd" type="Script" id=1]
+[ext_resource path="res://Objects/SwitchObject/SwitchSprite/SwitchSprite.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Textures/UI/ui0000.png" type="Texture" id=3]
+[ext_resource path="res://Textures/UI/ui0001.png" type="Texture" id=4]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 16.0
+
+[node name="Sign" type="Node2D"]
+script = ExtResource( 1 )
+rotateAppearance = true
+
+[node name="SwitchSprite" parent="." instance=ExtResource( 2 )]
+texture = ExtResource( 4 )
+on_texture = ExtResource( 3 )
+off_texture = ExtResource( 4 )
+
+[node name="SwitchHitbox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+
+[node name="Shape" type="CollisionShape2D" parent="SwitchHitbox"]
+shape = SubResource( 1 )
+
+[connection signal="switched_off" from="." to="SwitchSprite" method="_switched_off"]
+[connection signal="switched_on" from="." to="SwitchSprite" method="_switched_on"]

@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Objects/SwitchObject/SwitchSprite/SwitchSprite.gd" type="Script" id=1]
+[ext_resource path="res://Textures/Objects/Switch/switch0000.png" type="Texture" id=2]
+[ext_resource path="res://Textures/Objects/Switch/switch0001.png" type="Texture" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Interact"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.5 ),
+"transitions": PoolRealArray( 0.258816, 0.25, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.25, 1.25 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+
+[node name="SwitchSprite" type="Sprite"]
+texture = ExtResource( 3 )
+script = ExtResource( 1 )
+on_texture = ExtResource( 3 )
+off_texture = ExtResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_speed = 2.0
+anims/Interact = SubResource( 1 )
+anims/RESET = SubResource( 2 )

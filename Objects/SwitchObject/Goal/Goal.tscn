@@ -1,0 +1,118 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Objects/SwitchObject/Goal/Goal.gd" type="Script" id=1]
+[ext_resource path="res://Objects/SwitchObject/SwitchSprite/SwitchSprite.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Textures/Dice/dice0000.png" type="Texture" id=3]
+[ext_resource path="res://Textures/Dice/dice0006.png" type="Texture" id=4]
+
+[sub_resource type="CircleShape2D" id=1]
+
+[sub_resource type="Animation" id=2]
+resource_name = "Active"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 2, 0.25, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.15, 1.15 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "Inactive"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 180.0, 360.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0.75, 0.75 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[node name="Goal" type="Node2D" groups=["goal"]]
+script = ExtResource( 1 )
+rotateAppearance = true
+ignorePlayer = true
+texture = ExtResource( 3 )
+
+[node name="SwitchSprite" parent="." instance=ExtResource( 2 )]
+texture = ExtResource( 4 )
+on_texture = ExtResource( 3 )
+off_texture = ExtResource( 4 )
+
+[node name="SwitchHitbox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+
+[node name="Shape" type="CollisionShape2D" parent="SwitchHitbox"]
+shape = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Active = SubResource( 2 )
+anims/Inactive = SubResource( 3 )
+anims/RESET = SubResource( 4 )
+
+[connection signal="switched_off" from="." to="SwitchSprite" method="_switched_off"]
+[connection signal="switched_on" from="." to="SwitchSprite" method="_switched_on"]

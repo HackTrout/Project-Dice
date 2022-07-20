@@ -1,0 +1,126 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Helpers/PostProcess/PostProcess.gd" type="Script" id=1]
+[ext_resource path="res://World/Buttons.tscn" type="PackedScene" id=2]
+
+[sub_resource type="Animation" id=5]
+resource_name = "Enter"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Cover:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 480, 540 ), Vector2( 480, 540 ), Vector2( 480, -540 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "Exit"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Cover:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 480, -540 ), Vector2( 480, -2000 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Cover:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 480, 540 ) ]
+}
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+
+uniform bool enabled = true;
+uniform float paletteSize = 5.0;
+uniform sampler2D palette;
+
+
+void fragment() {
+	
+	// Get colour from screen
+	vec4 colour = texture(SCREEN_TEXTURE, SCREEN_UV);
+	
+	// Palette assigning shader
+	if (enabled) {
+		
+		// Convert screen input to greyscale
+		float greyscale = (colour.r + colour.g + colour.b) / 3.0;
+		
+		// Force greyscale into palette size
+		greyscale = floor(greyscale * paletteSize) / (paletteSize);
+		
+		// Get corresponding colour with greyscale input from palette
+		colour = texture(palette, vec2(greyscale, 0.0));
+		
+	}
+	
+	// Output
+	COLOR = colour;
+}"
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0, 0.25, 0.5, 0.75, 1 )
+colors = PoolColorArray( 0.15, 0.12, 0.105, 1, 0.3, 0.255, 0.21, 1, 0.85098, 0.709804, 0.423529, 1, 0.75, 0.71875, 0.5625, 1, 0.94902, 0.94902, 0.760784, 1 )
+
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 1 )
+shader_param/enabled = true
+shader_param/paletteSize = 5.0
+shader_param/palette = SubResource( 3 )
+
+[node name="PostProcess" type="CanvasLayer" groups=["PostProcess"]]
+script = ExtResource( 1 )
+
+[node name="Buttons" parent="." instance=ExtResource( 2 )]
+
+[node name="Transition" type="Node2D" parent="."]
+
+[node name="Cover" type="ColorRect" parent="Transition"]
+margin_left = 480.0
+margin_top = 540.0
+margin_right = 1760.0
+margin_bottom = 1820.0
+rect_rotation = 45.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Transition"]
+autoplay = "Exit"
+anims/Enter = SubResource( 5 )
+anims/Exit = SubResource( 6 )
+anims/RESET = SubResource( 7 )
+
+[node name="PaletteAssigner" type="ColorRect" parent="."]
+material = SubResource( 4 )
+margin_right = 960.0
+margin_bottom = 540.0
+mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[connection signal="animation_finished" from="Transition/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

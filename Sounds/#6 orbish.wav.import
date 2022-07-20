@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/#6 orbish.wav-9794509c70cc1b79a7d1770ae4f8a656.sample"
+
+[deps]
+
+source_file="res://Sounds/#6 orbish.wav"
+dest_files=[ "res://.import/#6 orbish.wav-9794509c70cc1b79a7d1770ae4f8a656.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
